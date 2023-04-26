@@ -2,6 +2,12 @@
 
 > ⚠️ This application is currently under-devlopment, and it is Open for your precious contribution
 
+---
+### Join conversation with team 👇
+[![Discord](https://img.shields.io/discord/807214956357484583?color=blue&label=Discord%20Server&logo=Cold%20Spin%20Server&style=for-the-badge)](https://discord.gg/xR6qCrU8mu)
+
+---
+
 We aim to build an **AI-powered chat application** that can have nuanced conversations with humans on any topic. The chat application will have a broad range of knowledge which it will tap into instantly to respond to user queries. It will demonstrate empathy, humor, and personality to appear more human-like in its conversations. The key objectives of this project are:
 
 ## Objective of Project
