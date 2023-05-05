@@ -1,16 +1,34 @@
 import express from 'express';
 import cors from 'cors';
-import {chats} from './data/data.js';
+import { chats } from './data/data.js';
+import userRouter from './routes/user-routes';
+import * as dotenv from 'dotenv';
+import mongoose from 'mongoose';
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
+const URI = process.env.MONGO_URI;
+const PORT = process.env.PORT;
+
+app.use(express.json());
+
+app.use('/api/user', userRouter);
 
 app.use('/api/chat', (req, res) => {
     res.send(chats);
 });
 
-app.use('/', (req, res) => {
-    res.send('Welcome to AI powered Chat Application!!');
-});
-
-app.listen(5000, console.log('Server started at port 5000'));
+mongoose
+    .connect(URI)
+    .then(() => {
+        app.listen(PORT);
+        console.log('\n');
+    })
+    .then(() => {
+        console.log(`Connected to MongoDB Atlas & listening at PORT: ${PORT}`);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
