@@ -1,14 +1,36 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 const Login = () => {
+    const [inputs, setInputs] = useState({
+        email: '',
+        password: '',
+    });
+
+    const handleInput = (e) => {
+        setInputs((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        console.log(inputs);
+    };
+
     return (
         <div>
             <h1 className='text-center font-[700] text-[60px]'>Log In</h1>
-            <form className='w-[75%] mx-auto flex flex-col justify-between drop-shadow-xl'>
+            <form
+                onSubmit={handleLogin}
+                className='w-[75%] mx-auto flex flex-col justify-between drop-shadow-xl'
+            >
                 <section className='my-3'>
                     <label className='text-left font-[600] text-[38px]'>
                         Email ID
                     </label>
                     <input
+                        onChange={handleInput}
                         name='email'
                         type='email'
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2  transition-all duration-200 ease-in-out hover:border-devBlue'
@@ -21,6 +43,7 @@ const Login = () => {
                         Password
                     </label>
                     <input
+                        onChange={handleInput}
                         name='password'
                         type='password'
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
