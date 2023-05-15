@@ -62,14 +62,58 @@ export const login = async (req, res, next) => {
         return res.status(404).json({ message: 'No User found!' });
     }
 
-    return bcryptjs.compareSync(password, existingUser.password)
+    return (await bcryptjs.compareSync(password, existingUser.password))
         ? res
               .status(200)
               .json({ message: 'Logged In Successfully!', user: existingUser })
-        : res
-              .status(400)
-              .json({
-                  message:
-                      'Wrong Credentials detected, please enter correct ones',
-              });
+        : res.status(400).json({
+              message: 'Wrong Credentials detected, please enter correct ones',
+          });
+};
+
+export const delUser = async (req, res, next) => {
+    const { email, password } = req.body;
+    const userId = req.params.id;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+        if (await bcryptjs.compareSync(password, user.password)) {
+            user = await User.findOneAndDelete({ email });
+        }
+    } catch (err) {
+        return console.log(err);
+    }
+
+    if (!user) {
+        return res.status(500).json({ message: 'Unable to delete User' });
+    }
+
+    return res.status(200).json({ message: 'User deleted!!', user });
+};
+
+export const editUser = async (req, res, next) => {
+    const { name, email, password, newPass } = req.body;
+    const userId = req.params.id;
+    const newHashedPass = bcryptjs.hashSync(newPass);
+
+    let user;
+    try {
+        user = await User.findById(userId);
+        if (bcryptjs.compareSync(password, user.password)) {
+            user = await User.findByIdAndUpdate(userId, {
+                name,
+                email,
+                password: newHashedPass,
+            });
+        }
+    } catch (err) {
+        return console.log(err);
+    }
+
+    if (!user) {
+        return res.status(500).json({ message: 'Unable to update the user' });
+    }
+
+    return res.status(200).json({ message: 'Updated User!!', user });
 };
