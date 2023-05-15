@@ -31,7 +31,9 @@ Follow the procedure mentioned just below, to setup this application in your loc
   ```bash
   cd ai-powered-chat-application
   ```
-- For time being only `backend` directory is present here, later the `frontend` folder would be pushed in future commits
+- There are 2 sub directories in the project
+  - `backend`
+  - `frontend`
 
 ## Initiating project on local machine
 - Go into the desired directory & generate the `node_modules` for the dependencies.
