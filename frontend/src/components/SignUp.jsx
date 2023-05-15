@@ -1,15 +1,39 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const SignUp = () => {
+    const [inputs, setInputs] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
+    const handleInput = (e) => {
+        setInputs((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        console.log(inputs);
+    };
+    
     return (
         <div>
             <h1 className='text-center font-[700] text-[60px]'>Sign Up</h1>
-            <form className='w-[75%] mx-auto flex flex-col justify-between drop-shadow-xl'>
+            <form
+                onSubmit={handleSignUp}
+                className='w-[75%] mx-auto flex flex-col justify-between drop-shadow-xl'
+            >
                 <section className='my-3'>
                     <label className='text-left font-[600] text-[38px]'>
                         Full Name
                     </label>
                     <input
+                        onChange={handleInput}
                         name='name'
                         type='text'
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
@@ -22,6 +46,7 @@ const SignUp = () => {
                         Email Id
                     </label>
                     <input
+                        onChange={handleInput}
                         name='email'
                         type='email'
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
@@ -34,6 +59,7 @@ const SignUp = () => {
                         Password
                     </label>
                     <input
+                        onChange={handleInput}
                         name='password'
                         type='password'
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
@@ -46,6 +72,7 @@ const SignUp = () => {
                         Confirm Password
                     </label>
                     <input
+                        onChange={handleInput}
                         name='confirmPassword'
                         type='password'
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
