@@ -6,7 +6,7 @@ const Login = () => {
             <form className='w-[75%] mx-auto flex flex-col justify-between drop-shadow-xl'>
                 <section className='my-3'>
                     <label className='text-left font-[600] text-[38px]'>
-                        Email
+                        Email ID
                     </label>
                     <input
                         name='email'
