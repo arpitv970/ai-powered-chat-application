@@ -9,7 +9,7 @@ const App = () => {
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
     console.log(isLoggedIn);
     return (
-        <div className='font-poppins'>
+        <div className='mx-3 font-poppins'>
             <Navbar />
             <Routes>
                 <Route path='/' element={<Home />} />
