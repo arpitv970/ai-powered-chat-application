@@ -1,7 +1,10 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+    const navigate = useNavigate();
+
     const [inputs, setInputs] = useState({
         name: '',
         email: '',
@@ -16,11 +19,31 @@ const SignUp = () => {
         }));
     };
 
+    const sendReq = async () => {
+        const res = await axios
+            .post('http://localhost:5000/api/user/signup', {
+                name: inputs.name,
+                email: inputs.email,
+                password: inputs.password,
+            })
+            .catch((err) => console.log(err));
+        const data = res.data;
+
+        return data;
+    };
+
     const handleSignUp = (e) => {
         e.preventDefault();
+        if (inputs.password !== inputs.confirmPassword) {
+            return alert('Please Enter correct Password');
+        }
         console.log(inputs);
+        sendReq()
+            .then(() => navigate('/login'))
+            .then((data) => console.log(data))
+            .catch((err) => alert(err));
     };
-    
+
     return (
         <div>
             <h1 className='text-center font-[700] text-[60px]'>Sign Up</h1>
