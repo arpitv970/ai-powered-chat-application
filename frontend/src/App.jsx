@@ -2,8 +2,11 @@ import { Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+    const isLoggedIn = useSelector((state) => state.isLoggedIn);
+    console.log(isLoggedIn);
     return (
         <div>
             <Routes>

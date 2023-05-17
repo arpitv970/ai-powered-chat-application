@@ -1,6 +1,11 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { authActions } from '../store';
+import { useDispatch } from 'react-redux';
 const Login = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [inputs, setInputs] = useState({
         email: '',
         password: '',
@@ -13,9 +18,29 @@ const Login = () => {
         }));
     };
 
+    const sendReq = async () => {
+        const res = await axios
+            .post('http://localhost:5000/api/user/login', {
+                email: inputs.email,
+                password: inputs.password,
+            })
+            .catch((err) => console.log(err));
+        const data = res.data;
+
+        return data;
+    };
+
     const handleLogin = (e) => {
         e.preventDefault();
         console.log(inputs);
+        sendReq()
+            .then(() => dispatch(authActions.login()))
+            .then(() => navigate('/'))
+            .then((data) => console.log(data))
+            .catch((err) => {
+                alert('Please Enter correct credentials');
+                console.log(err);
+            });
     };
 
     return (
