@@ -17,7 +17,7 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const signup = async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, pic } = req.body;
     let existingUser;
 
     try {
@@ -38,6 +38,7 @@ export const signup = async (req, res, next) => {
         name,
         email,
         password: hashedPass,
+        pic,
     });
 
     try {
