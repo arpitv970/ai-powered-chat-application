@@ -4,12 +4,14 @@ import {
     editUser,
     getAllUsers,
     login,
+    searchUser,
     signup,
 } from '../controllers/user-controller';
 
 const userRouter = express.Router();
 
-userRouter.get('/', getAllUsers);
+userRouter.get('/', getAllUsers)
+userRouter.get('/find', searchUser);
 userRouter.post('/signup', signup);
 userRouter.post('/login', login);
 userRouter.delete('/delUser/:id', delUser);
