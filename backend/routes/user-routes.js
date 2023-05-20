@@ -11,11 +11,11 @@ import { protect } from '../middleware/authMiddlewar';
 
 const userRouter = express.Router();
 
-userRouter.get('/', getAllUsers)
+userRouter.get('/', protect, getAllUsers);
 userRouter.get('/find', protect, searchUser);
 userRouter.post('/signup', signup);
 userRouter.post('/login', login);
-userRouter.delete('/delUser/:id', delUser);
-userRouter.put('/editUser/:id', editUser);
+userRouter.delete('/delUser/:id', protect, delUser);
+userRouter.put('/editUser/:id', protect, editUser);
 
 export default userRouter;
