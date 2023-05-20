@@ -1,4 +1,5 @@
-import User from '../models/User';
+import { generateToken } from '../config/generateToken.mjs';
+import User from '../models/User.mjs';
 import bcryptjs from 'bcryptjs';
 
 export const getAllUsers = async (req, res, next) => {
@@ -25,7 +26,7 @@ export const searchUser = async (req, res, next) => {
               ],
           }
         : {};
-    const users = await User.find(keyword);
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
 
     return res.status(200).json({ users });
 };
@@ -61,7 +62,10 @@ export const signup = async (req, res, next) => {
         return console.log(err);
     }
 
-    return res.status(201).json({ user });
+    return res.status(201).json({
+        user,
+        token: generateToken(user._id),
+    });
 };
 
 export const login = async (req, res, next) => {
@@ -78,9 +82,10 @@ export const login = async (req, res, next) => {
     }
 
     return (await bcryptjs.compareSync(password, existingUser.password))
-        ? res
-              .status(200)
-              .json({ message: 'Logged In Successfully!', user: existingUser })
+        ? res.status(200).json({
+              user: existingUser,
+              token: generateToken(existingUser._id),
+          })
         : res.status(400).json({
               message: 'Wrong Credentials detected, please enter correct ones',
           });
