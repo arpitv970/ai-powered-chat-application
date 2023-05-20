@@ -6,8 +6,8 @@ import {
     login,
     searchUser,
     signup,
-} from '../controllers/user-controller';
-import { protect } from '../middleware/authMiddlewar';
+} from '../controllers/user-controller.mjs';
+import { protect } from '../middleware/authMiddlewar.mjs';
 
 const userRouter = express.Router();
 

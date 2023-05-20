@@ -1,5 +1,5 @@
-import { generateToken } from '../config/generateToken';
-import User from '../models/User';
+import { generateToken } from '../config/generateToken.mjs';
+import User from '../models/User.mjs';
 import bcryptjs from 'bcryptjs';
 
 export const getAllUsers = async (req, res, next) => {

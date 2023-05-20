@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { chats } from './data/data.js';
-import userRouter from './routes/user-routes';
+import userRouter from './routes/user-routes.mjs';
 import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 

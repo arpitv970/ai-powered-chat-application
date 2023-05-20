@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "backend of AI powered chat application",
-  "main": "app.js",
+  "main": "app.mjs",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-modules --es-module-specifier-resolution=node app.js",
-    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node app.js",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node app.mjs",
+    "dev": "nodemon app.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "DAAP",
