@@ -1,3 +1,4 @@
+import { generateToken } from '../config/generateToken';
 import User from '../models/User';
 import bcryptjs from 'bcryptjs';
 
@@ -61,7 +62,14 @@ export const signup = async (req, res, next) => {
         return console.log(err);
     }
 
-    return res.status(201).json({ user });
+    return res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        pic: user.pic,
+        token: generateToken(user._id),
+    });
 };
 
 export const login = async (req, res, next) => {
