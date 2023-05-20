@@ -7,11 +7,12 @@ import {
     searchUser,
     signup,
 } from '../controllers/user-controller';
+import { protect } from '../middleware/authMiddlewar';
 
 const userRouter = express.Router();
 
 userRouter.get('/', getAllUsers)
-userRouter.get('/find', searchUser);
+userRouter.get('/find', protect, searchUser);
 userRouter.post('/signup', signup);
 userRouter.post('/login', login);
 userRouter.delete('/delUser/:id', delUser);

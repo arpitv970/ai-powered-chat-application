@@ -26,7 +26,7 @@ export const searchUser = async (req, res, next) => {
               ],
           }
         : {};
-    const users = await User.find(keyword);
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
 
     return res.status(200).json({ users });
 };
@@ -63,11 +63,7 @@ export const signup = async (req, res, next) => {
     }
 
     return res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        pic: user.pic,
+        user,
         token: generateToken(user._id),
     });
 };
@@ -86,9 +82,10 @@ export const login = async (req, res, next) => {
     }
 
     return (await bcryptjs.compareSync(password, existingUser.password))
-        ? res
-              .status(200)
-              .json({ message: 'Logged In Successfully!', user: existingUser })
+        ? res.status(200).json({
+              user: existingUser,
+              token: generateToken(existingUser._id),
+          })
         : res.status(400).json({
               message: 'Wrong Credentials detected, please enter correct ones',
           });
