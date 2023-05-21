@@ -5,6 +5,7 @@ import userRouter from './routes/user-routes.mjs';
 import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import chatRouter from './routes/chat-routes.mjs';
+import messageRouter from './routes/message-routes.mjs';
 
 dotenv.config();
 
@@ -16,8 +17,8 @@ const PORT = process.env.PORT;
 app.use(express.json());
 
 app.use('/api/user', userRouter);
-
 app.use('/api/chat', chatRouter);
+app.use('/api/message', messageRouter);
 
 mongoose
     .connect(URI)
