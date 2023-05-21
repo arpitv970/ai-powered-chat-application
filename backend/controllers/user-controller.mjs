@@ -5,7 +5,7 @@ import bcryptjs from 'bcryptjs';
 export const getAllUsers = async (req, res, next) => {
     let users;
     try {
-        users = await User.find();
+        users = await User.find().sort({updatedAt: -1});
     } catch (err) {
         return console.log(err);
     }
