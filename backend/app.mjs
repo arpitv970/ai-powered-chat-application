@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import { chats } from './data/data.js';
+import { chats } from './data/data.mjs';
 import userRouter from './routes/user-routes.mjs';
 import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import chatRouter from './routes/chat-routes.mjs';
 
 dotenv.config();
 
@@ -16,9 +17,7 @@ app.use(express.json());
 
 app.use('/api/user', userRouter);
 
-app.use('/api/chat', (req, res) => {
-    res.send(chats);
-});
+app.use('/api/chat', chatRouter);
 
 mongoose
     .connect(URI)
