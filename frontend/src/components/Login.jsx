@@ -21,11 +21,20 @@ const Login = () => {
     };
 
     const sendReq = async () => {
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+            },
+        };
         const res = await axios
-            .post('http://localhost:5000/api/user/login', {
-                email: inputs.email,
-                password: inputs.password,
-            })
+            .post(
+                'http://localhost:5000/api/user/login',
+                {
+                    email: inputs.email,
+                    password: inputs.password,
+                },
+                config
+            )
             .catch((err) => console.log(err));
         const data = res.data;
 
