@@ -17,12 +17,16 @@ import {
 } from '@chakra-ui/react';
 import { IoIosNotifications } from 'react-icons/io';
 import { RiArrowDropDownLine } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store';
 import { useNavigate } from 'react-router-dom';
 
 const NavbarIcons = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const userData = useSelector((state) => state.user);
+    const user = userData.user;
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleLogOut = () => {
@@ -52,16 +56,16 @@ const NavbarIcons = () => {
                     <ModalHeader>My Profile</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody className='flex flex-col justify-around items-center mx-auto'>
-                        <Heading className='mt-0'>Arpit Verma</Heading>
+                        <Heading className='mt-0'>{user?.name}</Heading>
                         <Image
                             className='m-3'
                             objectFit='cover'
                             borderRadius='full'
                             boxSize='50%'
-                            src='https://bit.ly/dan-abramov'
+                            src={user.pic}
                             alt='Dan Abramov'
                         />
-                        <p className='m-3'>arpitv970@gmail.com</p>
+                        <p className='m-3'>{user?.email}</p>
                     </ModalBody>
                 </ModalContent>
             </Modal>

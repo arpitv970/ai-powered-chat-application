@@ -66,7 +66,7 @@ const SignUp = () => {
             )
             .then(() => dispatch(authActions.login()))
             .then(() => {
-                navigate('/');
+                navigate('/chat');
                 toast({
                     title: 'Signed Up Successfully.',
                     position: 'top',
