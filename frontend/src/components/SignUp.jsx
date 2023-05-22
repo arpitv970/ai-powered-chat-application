@@ -1,9 +1,14 @@
+import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { authActions } from '../store';
+import { useDispatch } from 'react-redux';
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const toast = useToast();
+    const dispatch = useDispatch();
 
     const [inputs, setInputs] = useState({
         name: '',
@@ -20,12 +25,22 @@ const SignUp = () => {
     };
 
     const sendReq = async () => {
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+            },
+        };
         const res = await axios
-            .post('http://localhost:5000/api/user/signup', {
-                name: inputs.name,
-                email: inputs.email,
-                password: inputs.password,
-            })
+            .post(
+                'http://localhost:5000/api/user/signup',
+                {
+                    name: inputs.name,
+                    email: inputs.email,
+                    password: inputs.password,
+                    pic: inputs.pic,
+                },
+                config
+            )
             .catch((err) => console.log(err));
         const data = res.data;
 
@@ -35,13 +50,43 @@ const SignUp = () => {
     const handleSignUp = (e) => {
         e.preventDefault();
         if (inputs.password !== inputs.confirmPassword) {
-            return alert('Please Enter correct Password');
+            return toast({
+                title: 'Enter correct Password.',
+                position: 'top',
+                description: 'Please confirm the correct Password!',
+                status: 'error',
+                duration: 3000,
+                isClosable: false,
+            });
         }
         console.log(inputs);
         sendReq()
-            .then(() => navigate('/login'))
+            .then((userData) =>
+                localStorage.setItem('userData', JSON.stringify(userData))
+            )
+            .then(() => dispatch(authActions.login()))
+            .then(() => {
+                navigate('/');
+                toast({
+                    title: 'Signed Up Successfully.',
+                    position: 'top',
+                    description: 'Your new account has been registered!',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: false,
+                });
+            })
             .then((data) => console.log(data))
-            .catch((err) => alert(err));
+            .catch((err) =>
+                toast({
+                    title: 'Ooops... Error Occured!.',
+                    position: 'top',
+                    description: err,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: false,
+                })
+            );
     };
 
     return (
@@ -75,6 +120,19 @@ const SignUp = () => {
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
                         required={true}
                         placeholder='Enter Email Id'
+                    />
+                </section>
+                <section className='my-3'>
+                    <label className='text-left font-[600] text-[38px]'>
+                        Image URL
+                    </label>
+                    <input
+                        onChange={handleInput}
+                        name='pic'
+                        type='text'
+                        className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
+                        required={true}
+                        placeholder='Enter Image URL'
                     />
                 </section>
                 <section className='my-3'>
