@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authActions } from '../store';
 import { useDispatch } from 'react-redux';
+import { useToast } from '@chakra-ui/react';
 const Login = () => {
+    const toast = useToast();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [inputs, setInputs] = useState({
@@ -19,11 +21,20 @@ const Login = () => {
     };
 
     const sendReq = async () => {
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+            },
+        };
         const res = await axios
-            .post('http://localhost:5000/api/user/login', {
-                email: inputs.email,
-                password: inputs.password,
-            })
+            .post(
+                'http://localhost:5000/api/user/login',
+                {
+                    email: inputs.email,
+                    password: inputs.password,
+                },
+                config
+            )
             .catch((err) => console.log(err));
         const data = res.data;
 
@@ -34,12 +45,31 @@ const Login = () => {
         e.preventDefault();
         console.log(inputs);
         sendReq()
+            .then((userData) =>
+                localStorage.setItem('userData', JSON.stringify(userData))
+            )
             .then(() => dispatch(authActions.login()))
-            .then(() => navigate('/'))
+            .then(() => {
+                navigate('/chat');
+                toast({
+                    title: 'Logged In Successfully.',
+                    position: 'top',
+                    description: 'You can now freely chat, with your friends!',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: false,
+                });
+            })
             .then((data) => console.log(data))
             .catch((err) => {
-                alert('Please Enter correct credentials');
-                console.log(err);
+                toast({
+                    title: 'Ooops... Error Occured!.',
+                    position: 'top',
+                    description: err,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: false,
+                });
             });
     };
 
