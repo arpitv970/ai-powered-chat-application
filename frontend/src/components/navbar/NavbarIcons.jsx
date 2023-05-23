@@ -25,7 +25,7 @@ const NavbarIcons = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const userData = useSelector((state) => state.user);
-    const user = userData.user;
+    const user = userData?.user;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -39,11 +39,24 @@ const NavbarIcons = () => {
             <IoIosNotifications size='2rem' cursor='pointer' />
             <Menu>
                 <MenuButton
-                    className='border border-dimWhite w-[60%] flex justify-between items-center'
+                    rounded='full'
+                    w='60%'
+                    justifyContent='flex-start'
+                    alignItems='flex-start'
+                    size='xl'
+                    className='border border-dimWhite flex justify-between items-center'
                     as={Button}
                     rightIcon={<RiArrowDropDownLine />}
+                    p='1'
                 >
-                    <Avatar size='sm' name='Arpit Verma' cursor='pointer' />
+                    <Avatar
+                        mr='10'
+                        src={user?.pic}
+                        size='md'
+                        name='Arpit Verma'
+                        objectFit='cover'
+                        cursor='pointer'
+                    />
                 </MenuButton>
                 <MenuList>
                     <MenuItem onClick={onOpen}>My Profile</MenuItem>
