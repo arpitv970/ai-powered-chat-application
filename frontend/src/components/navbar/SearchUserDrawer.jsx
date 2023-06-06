@@ -14,9 +14,10 @@ import {
     useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingSearchItem from './LoadingSearchItem';
 import UserListItems from './UserListItems';
+import { authActions } from '../../store';
 
 const SearchUserDrawer = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,10 +25,14 @@ const SearchUserDrawer = () => {
     const toast = useToast();
 
     const userData = useSelector((state) => state.user);
+    const selectedChat = useSelector((state) => state.selectedChat);
+
+    const dispatch = useDispatch();
 
     const [searchUser, setSearchUser] = useState();
     const [searchRes, setSearchRes] = useState();
     const [loading, setLoading] = useState(false);
+    const [loadingChat, setLoadingChat] = useState(false);
 
     const handleSearchUser = async () => {
         if (!searchUser) {
@@ -51,7 +56,7 @@ const SearchUserDrawer = () => {
                 },
             };
 
-            const {data} = await axios.get(
+            const { data } = await axios.get(
                 `http://localhost:5000/api/user/find/?search=${searchUser}`,
                 config
             );
@@ -74,8 +79,31 @@ const SearchUserDrawer = () => {
         setLoading(false);
     };
 
-    const accessChat = (userId) => {
-        console.log(userId);
+    const accessChat = async (userId) => {
+        const user = useSelector((state) => state.user);
+        try {
+            setLoadingChat(true);
+
+            const config = {
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: `Bearer ${user?.token}`,
+                },
+            };
+            const { data } = await axios.post('/api/chat', { userId }, config);
+            dispatch(authActions.setSelectedChats(data));
+            setLoadingChat(false);
+            onClose();
+        } catch (err) {
+            toast({
+                title: 'Ooops... Error Occured!.',
+                position: 'top',
+                description: err,
+                status: 'error',
+                duration: 3000,
+                isClosable: false,
+            });
+        }
     };
 
     return (
