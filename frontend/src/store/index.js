@@ -15,11 +15,12 @@ const authSlice = createSlice({
             state.user = data;
         },
         setSelectedChats(state, actions) {
-            state.selectedChats = actions.payload.data;
+            const { fullChat } = actions.payload;
+            state.selectedChats = fullChat;
         },
         setChats(state, actions) {
             state.chats = actions.payload.data;
-        }
+        },
     },
 });
 

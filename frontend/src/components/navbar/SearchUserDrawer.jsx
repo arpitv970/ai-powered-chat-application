@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Button,
     Drawer,
@@ -25,7 +25,7 @@ const SearchUserDrawer = () => {
     const toast = useToast();
 
     const userData = useSelector((state) => state.user);
-    const selectedChat = useSelector((state) => state.selectedChat);
+    const selectedChat = useSelector((state) => state.selectedChats);
 
     const dispatch = useDispatch();
 
@@ -80,18 +80,32 @@ const SearchUserDrawer = () => {
     };
 
     const accessChat = async (userId) => {
-        const user = useSelector((state) => state.user);
         try {
+            console.log('user', userId);
             setLoadingChat(true);
 
             const config = {
                 headers: {
                     'Content-type': 'application/json',
-                    Authorization: `Bearer ${user?.token}`,
+                    Authorization: `Bearer ${userData?.token}`,
                 },
             };
-            const { data } = await axios.post('/api/chat', { userId }, config);
-            dispatch(authActions.setSelectedChats(data));
+            await axios
+                .post('http://localhost:5000/api/chat', { userId }, config)
+                .then((res) => {
+                    console.log(res?.data);
+                    dispatch(authActions.setSelectedChats(res?.data));
+                })
+                .catch((err) =>
+                    toast({
+                        title: 'Ooops... Error Occured!.',
+                        position: 'top',
+                        description: err,
+                        status: 'error',
+                        duration: 3000,
+                        isClosable: false,
+                    })
+                );
             setLoadingChat(false);
             onClose();
         } catch (err) {
@@ -105,6 +119,8 @@ const SearchUserDrawer = () => {
             });
         }
     };
+
+    console.log('selectedChat', selectedChat);
 
     return (
         <div>
