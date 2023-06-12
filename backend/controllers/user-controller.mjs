@@ -5,7 +5,7 @@ import bcryptjs from 'bcryptjs';
 export const getAllUsers = async (req, res, next) => {
     let users;
     try {
-        users = await User.find().sort({updatedAt: -1});
+        users = await User.find().sort({ updatedAt: -1 });
     } catch (err) {
         return console.log(err);
     }
@@ -28,7 +28,9 @@ export const searchUser = async (req, res, next) => {
         : {};
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
 
-    return res.status(200).json({ users });
+    return users?.length === 0
+        ? res.status(400).json({ message: 'No such user found!' })
+        : res.status(200).json({ users });
 };
 
 export const signup = async (req, res, next) => {

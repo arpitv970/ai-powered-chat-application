@@ -66,7 +66,7 @@ const SearchUserDrawer = () => {
             setLoading(false);
             setSearchRes(data?.users);
         } catch (error) {
-            toast({
+            return toast({
                 title: 'Error Occured!',
                 description: 'Failed to Load the Search Results',
                 status: 'error',
