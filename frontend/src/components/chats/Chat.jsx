@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import LeftCard from './LeftCard';
 import RightCard from './RightCard';
 import { authActions } from '../../store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {

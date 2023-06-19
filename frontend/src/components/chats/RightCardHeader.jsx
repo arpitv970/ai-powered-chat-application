@@ -11,7 +11,7 @@ const RightCardHeader = ({ chat }) => {
 
     console.log('aizen', userData?.user?.name);
 
-    return <div onClick={onOpen} className='text-3xl py-2 my-2 ml-0 mr-auto flex justify-start items-center w-[100%] hover:bg-gray-300 transition-all ease-in-out duration-200 cursor-pointer rounded-xl'>
+    return <div onClick={onOpen} className='text-3xl py-2 my-1 ml-0 mr-auto flex justify-start items-center w-[100%] hover:bg-gray-300 transition-all ease-in-out duration-200 cursor-pointer rounded-xl'>
         <Avatar className='mx-3' name={chat?.users[1]?.name} src={chat?.users[1]?.pic} />
         {chat?.users[1]?.name}
         <Modal isOpen={isOpen} onClose={onClose}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     Drawer,
@@ -12,6 +12,7 @@ import {
     Tooltip,
     useDisclosure,
     useToast,
+    Spinner,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ const SearchUserDrawer = () => {
 
     const userData = useSelector((state) => state.user);
     const selectedChat = useSelector((state) => state.selectedChats);
+    const chats = useSelector((state) => state.chats);
 
     const dispatch = useDispatch();
 
@@ -94,6 +96,9 @@ const SearchUserDrawer = () => {
                 .post('http://localhost:5000/api/chat', { userId }, config)
                 .then((res) => {
                     console.log(res?.data);
+                    if (!chats.find((c) => c._id === res?.data._id)) {
+                        dispatch(authActions.setChats([res?.data, ...chats]));
+                    }
                     dispatch(authActions.setSelectedChats(res?.data));
                 })
                 .catch((err) =>
@@ -158,7 +163,19 @@ const SearchUserDrawer = () => {
                             </Button>
                         </HStack>
 
-                        {loading ? (
+                        {loadingChat ? (
+                            <div className='flex justify-center items-center m-auto h-[100%] w-[100%]'>
+                                <Spinner
+                                    d='flex'
+                                    m='auto'
+                                    thickness='4px'
+                                    speed='0.65s'
+                                    emptyColor='gray.200'
+                                    color='blue.500'
+                                    size='xl'
+                                />
+                            </div>
+                        ) : loading ? (
                             <LoadingSearchItem />
                         ) : (
                             searchRes?.map((user) => (
