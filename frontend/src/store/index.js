@@ -2,7 +2,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
     name: 'Auth',
-    initialState: { isLogged: false, user: {}, selectedChats: {}, chats: [] },
+    initialState: { isLogged: false, user: {}, selectedChats: [], chats: [] },
     reducers: {
         login(state) {
             state.isLogged = true;
@@ -15,11 +15,12 @@ const authSlice = createSlice({
             state.user = data;
         },
         setSelectedChats(state, actions) {
-            const { fullChat } = actions.payload;
-            state.selectedChats = fullChat;
+            const data = actions.payload;
+            state.selectedChats = data;
         },
         setChats(state, actions) {
-            state.chats = actions.payload.data;
+            const data = actions.payload
+            state.chats = data;
         },
     },
 });

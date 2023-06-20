@@ -1,8 +1,19 @@
 import { Avatar } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../../store';
 const UserChat = (props) => {
-    const { chatName, chatDes, pic = 'https://bit.ly/broken-link' } = props;
+    const {
+        chat,
+        chatName,
+        chatDes,
+        pic = 'https://bit.ly/broken-link',
+    } = props;
+    const dispatch = useDispatch();
     return (
-        <div className='border border-primary rounded-xl flex justify-start items-start p-1 my-2 hover:bg-gray-300 transition-all ease-in-out duration-200 cursor-pointer'>
+        <div
+            onClick={() => dispatch(authActions.setSelectedChats(chat))}
+            className='border border-primary rounded-xl flex justify-start items-start p-1 my-2 hover:bg-gray-300 transition-all ease-in-out duration-200 cursor-pointer'
+        >
             <div className='mx-1 my-1'>
                 <Avatar src={pic} />
             </div>

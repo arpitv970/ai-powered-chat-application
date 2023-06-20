@@ -94,12 +94,13 @@ const SearchUserDrawer = () => {
             };
             await axios
                 .post('http://localhost:5000/api/chat', { userId }, config)
-                .then((res) => {
-                    console.log(res?.data);
-                    if (!chats.find((c) => c._id === res?.data._id)) {
-                        dispatch(authActions.setChats([res?.data, ...chats]));
+                .then((res) => res?.data?.fullChat)
+                .then((data) => {
+                    console.log('fullchat', data);
+                    if (!chats.find((c) => c._id === data._id)) {
+                        dispatch(authActions.setChats([data, ...chats]));
                     }
-                    dispatch(authActions.setSelectedChats(res?.data));
+                    dispatch(authActions.setSelectedChats(data));
                 })
                 .catch((err) =>
                     toast({
