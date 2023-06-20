@@ -20,6 +20,7 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store';
 import { useNavigate } from 'react-router-dom';
+import ProfileModal from '../chats/ProfileModal';
 
 const NavbarIcons = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -63,25 +64,7 @@ const NavbarIcons = () => {
                     <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
                 </MenuList>
             </Menu>
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>My Profile</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody className='flex flex-col justify-around items-center mx-auto'>
-                        <Heading className='mt-0'>{user?.name}</Heading>
-                        <Image
-                            className='m-3'
-                            objectFit='cover'
-                            borderRadius='full'
-                            boxSize='50%'
-                            src={user.pic}
-                            alt='Dan Abramov'
-                        />
-                        <p className='m-3'>{user?.email}</p>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
+            <ProfileModal isOpen={isOpen} onClose={onClose} user={user} />
         </div>
     );
 };

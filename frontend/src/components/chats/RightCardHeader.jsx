@@ -12,6 +12,8 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import ProfileModal from './ProfileModal';
+import { getUser } from '../../config/ChatLogic';
 
 const RightCardHeader = ({ chat }) => {
     const userData = useSelector((state) => state.user);
@@ -27,33 +29,16 @@ const RightCardHeader = ({ chat }) => {
         >
             <Avatar
                 className='mx-3'
-                name={chat?.users[1]?.name}
-                src={chat?.users[1]?.pic}
+                name={getUser(userData, chat?.users)?.name}
+                src={getUser(userData, chat?.users)?.pic}
             />
-            {chat?.users[1]?.name}
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Profile</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody className='flex flex-col justify-around items-center mx-auto'>
-                        <Heading className='mt-0'>
-                            {chat?.users[1]?.name}
-                        </Heading>
-                        <Avatar
-                            className='m-3'
-                            objectFit='cover'
-                            borderRadius='full'
-                            boxSize='50%'
-                            boxShadow='dark-lg'
-                            name={chat?.users[1]?.name}
-                            src={chat?.users[1]?.pic}
-                            alt='Dan Abramov'
-                        />
-                        <p className='m-3'>{chat?.users[1]?.email}</p>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
+            {getUser(userData, chat?.users)?.name}
+
+            <ProfileModal
+                isOpen={isOpen}
+                onClose={onClose}
+                user={getUser(userData, chat?.users)}
+            />
         </div>
     );
 };
