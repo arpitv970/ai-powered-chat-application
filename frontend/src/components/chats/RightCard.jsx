@@ -4,10 +4,9 @@ import RightCardFooter from './RightCardFooter';
 import RightCardHeader from './RightCardHeader';
 import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const RightCard = () => {
-    const [loggedUser, setLoggedUser] = useState();
 
     const selectedChat = useSelector((state) => state.selectedChats);
     const userData = useSelector((state) => state.user);
@@ -37,7 +36,6 @@ const RightCard = () => {
     };
 
     useEffect(() => {
-        setLoggedUser(JSON.parse(localStorage.getItem('userData')));
         fetchChats();
     }, []);
 
