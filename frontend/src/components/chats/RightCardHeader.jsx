@@ -1,15 +1,4 @@
-import {
-    Avatar,
-    Heading,
-    Image,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
-    useDisclosure,
-} from '@chakra-ui/react';
+import { Avatar, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import ProfileModal from './ProfileModal';
