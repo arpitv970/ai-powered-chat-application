@@ -16,31 +16,35 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState } from 'react';
-import { CiCircleRemove } from 'react-icons/ci';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import SelectecUsers from './GroupChat/SelectecUsers';
+import { authActions } from '../../store';
 
 const LeftCardHeader = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const userData = useSelector((state) => state.user);
+    const chats = useSelector((state) => state.chats);
 
     const toast = useToast();
+    const dispatch = useDispatch();
 
     const [allUsers, setAllUsers] = useState([]);
     const [groupInputs, setGroupInputs] = useState({
         groupName: '',
-        users: [],
+        users: [userData?.user],
     });
 
     const handleGroupInputs = async (e) => {
         e.preventDefault();
-        const index = e.target.selectedIndex;
-        const el = e.target.childNodes[index];
-        const option = el.getAttribute('id');
+        console.log(e.target.id, e.target.value);
 
         if (e.target.id === 'groupName') {
             setGroupInputs((prev) => ({ ...prev, groupName: e.target.value }));
         } else {
+            const index = e.target.selectedIndex;
+            const el = e.target.childNodes[index];
+            const option = el.getAttribute('id');
             const filteredUsers = allUsers?.filter(
                 (user) => user?._id !== option
             );
@@ -89,7 +93,60 @@ const LeftCardHeader = () => {
             );
     };
 
-    console.log(groupInputs);
+    const handleCreateGroup = async (e) => {
+        e.preventDefault();
+        if (!groupInputs?.groupName || groupInputs?.users?.length < 3) {
+            toast({
+                title: 'Insuffient Users',
+                position: 'top',
+                description: 'Add atleast 3 users to create a group chat',
+                status: 'error',
+                duration: 3000,
+                isClosable: false,
+            });
+            return;
+        }
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${userData?.token}`,
+                },
+            };
+            const { data } = await axios.post(
+                'http://localhost:5000/api/chat/group',
+                {
+                    grpName: groupInputs?.groupName,
+                    users: JSON.stringify(
+                        groupInputs?.users?.map((u) => u?._id)
+                    ),
+                },
+                config
+            );
+
+            console.log(data)
+
+            dispatch(authActions.setChats([data?.fullGrpChat, ...chats]));
+            onClose();
+            toast({
+                title: `${groupInputs?.groupName} group chat created Successfully.`,
+                position: 'top',
+                description:
+                    'You can now freely chat, with your friends in group chat!',
+                status: 'success',
+                duration: 3000,
+                isClosable: false,
+            });
+        } catch (err) {
+            toast({
+                title: 'Ooops... Error Occured!.',
+                position: 'top',
+                description: err,
+                status: 'error',
+                duration: 3000,
+                isClosable: false,
+            });
+        }
+    };
 
     return (
         <div className='flex justify-between items-center px-3 py-2'>
@@ -109,52 +166,66 @@ const LeftCardHeader = () => {
                     <ModalContent>
                         <ModalHeader>Create new Group Chat</ModalHeader>
                         <ModalCloseButton />
-                        <ModalBody>
-                            <FormControl isRequired>
-                                <FormLabel>Group Chat Name</FormLabel>
-                                <Input
-                                    id='groupName'
-                                    onChange={handleGroupInputs}
-                                    placeholder='Enter Group Name'
-                                />
-                            </FormControl>
+                        <form onSubmit={handleCreateGroup}>
+                            <ModalBody>
+                                <FormControl isRequired>
+                                    <FormLabel>Group Chat Name</FormLabel>
+                                    <Input
+                                        id='groupName'
+                                        onChange={handleGroupInputs}
+                                        placeholder='Enter Group Name'
+                                    />
+                                </FormControl>
 
-                            <FormControl mt={4} isRequired>
-                                <FormLabel>Add Users</FormLabel>
-                                <div className='border border-black flex justify-around items-start flex-wrap'>
-                                    {groupInputs?.users?.map((user, idx) => (
-                                        <span
-                                            className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center'
-                                            key={idx}
-                                        >
-                                            {user?.name}
-                                            <CiCircleRemove
-                                                size='1.5rem'
-                                                className='hover:text-red-500 cursor-pointer ml-1 transition-all ease-in-out duration-200'
-                                            />
-                                        </span>
-                                    ))}
-                                </div>
-                                <Select
-                                    id='users'
-                                    onChange={handleGroupInputs}
-                                    placeholder='Select Users'
+                                <FormControl mt={4}>
+                                    <FormLabel>Add Users</FormLabel>
+                                    <div className='flex justify-around items-start flex-wrap'>
+                                        {groupInputs?.users?.map(
+                                            (user, idx) => (
+                                                <SelectecUsers
+                                                    user={user}
+                                                    key={idx}
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                    <Select
+                                        id='users'
+                                        onChange={handleGroupInputs}
+                                        placeholder='Select Users'
+                                    >
+                                        {allUsers?.map((user) => (
+                                            <option
+                                                id={user?._id}
+                                                key={user?._id}
+                                            >
+                                                {user?.name}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </ModalBody>
+
+                            <ModalFooter>
+                                <Button
+                                    type='reset'
+                                    mr={3}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setGroupInputs({
+                                            groupName: '',
+                                            users: [userData?.user],
+                                        });
+                                        onClose();
+                                    }}
                                 >
-                                    {allUsers?.map((user) => (
-                                        <option id={user?._id} key={user?._id}>
-                                            {user?.name}
-                                        </option>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </ModalBody>
-
-                        <ModalFooter>
-                            <Button mr={3} onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button colorScheme='twitter'>Create</Button>
-                        </ModalFooter>
+                                    Cancel
+                                </Button>
+                                <Button type='submit' colorScheme='twitter'>
+                                    Create
+                                </Button>
+                            </ModalFooter>
+                        </form>
                     </ModalContent>
                 </Modal>
             </div>

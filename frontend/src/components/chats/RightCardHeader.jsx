@@ -18,15 +18,28 @@ const RightCardHeader = ({ chat }) => {
         >
             <Avatar
                 className='mx-3'
-                name={getUser(userData, chat?.users)?.name}
-                src={getUser(userData, chat?.users)?.pic}
+                name={
+                    !chat?.isGroupChat
+                        ? getUser(userData, chat?.users)?.name
+                        : chat?.chatName
+                }
+                src={
+                    !chat?.isGroupChat
+                        ? getUser(userData, chat?.users)?.pic
+                        : chat?.chatName
+                }
             />
-            {getUser(userData, chat?.users)?.name}
+            {!chat?.isGroupChat
+                ? getUser(userData, chat?.users)?.name
+                : chat?.chatName}
 
             <ProfileModal
                 isOpen={isOpen}
                 onClose={onClose}
-                user={getUser(userData, chat?.users)}
+                isGroupChat={chat?.isGroupChat}
+                user={
+                    !chat?.isGroupChat ? getUser(userData, chat?.users) : chat
+                }
             />
         </div>
     );

@@ -15,8 +15,16 @@ const LeftCard = () => {
                 <UserChat
                     key={chatId}
                     chat={chat}
-                    chatName={getUser(userData, chat?.users)?.name}
-                    pic={getUser(userData, chat?.users)?.pic}
+                    chatName={
+                        !chat?.isGroupChat
+                            ? getUser(userData, chat?.users)?.name
+                            : chat?.chatName
+                    }
+                    pic={
+                        !chat?.isGroupChat
+                            ? getUser(userData, chat?.users)?.pic
+                            : chat?.chatName
+                    }
                     chatDes={'asdf asdf asdf asdf....'}
                 />
             ))}
