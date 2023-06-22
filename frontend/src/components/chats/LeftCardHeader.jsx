@@ -34,22 +34,29 @@ const LeftCardHeader = () => {
 
     const handleGroupInputs = async (e) => {
         e.preventDefault();
-        console.log(e.target.id);
+        const index = e.target.selectedIndex;
+        const el = e.target.childNodes[index];
+        const option = el.getAttribute('id');
 
         if (e.target.id === 'groupName') {
             setGroupInputs((prev) => ({ ...prev, groupName: e.target.value }));
         } else {
-            const filteredUsers = allUsers?.filter((user) => {
-                return !groupInputs?.users?.includes(user?.name);
+            const filteredUsers = allUsers?.filter(
+                (user) => user?._id !== option
+            );
+
+            const selectedUsers = allUsers?.find(
+                (user) => user?._id === option
+            );
+
+            console.log(selectedUsers, option);
+
+            setGroupInputs({
+                ...groupInputs,
+                users: [...groupInputs.users, selectedUsers],
             });
-            await setGroupInputs((prev) => ({
-                ...prev,
-                users: [...prev.users, e.target.value],
-            }));
 
-            await setAllUsers(filteredUsers);
-
-            console.log('filteredUsers', filteredUsers);
+            setAllUsers(filteredUsers);
         }
     };
 
@@ -64,8 +71,11 @@ const LeftCardHeader = () => {
             .get('http://localhost:5000/api/user', config)
             .then((res) => res?.data?.users)
             .then((data) => {
-                console.log('all users fetch', data);
-                setAllUsers(data);
+                const filteredUsers = data?.filter(
+                    (user) => user?._id !== userData?.user?._id
+                );
+                // console.log('all users fetch', filteredUsers);
+                setAllUsers(filteredUsers);
             })
             .catch((err) =>
                 toast({
@@ -117,7 +127,7 @@ const LeftCardHeader = () => {
                                             className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center'
                                             key={idx}
                                         >
-                                            {user}
+                                            {user?.name}
                                             <CiCircleRemove
                                                 size='1.5rem'
                                                 className='hover:text-red-500 cursor-pointer ml-1 transition-all ease-in-out duration-200'
@@ -131,14 +141,10 @@ const LeftCardHeader = () => {
                                     placeholder='Select Users'
                                 >
                                     {allUsers?.map((user) => (
-                                        <option key={user?._id}>
+                                        <option id={user?._id} key={user?._id}>
                                             {user?.name}
                                         </option>
                                     ))}
-                                    {/* <option>Pahal</option>
-                                    <option>Aryan</option>
-                                    <option>Deepesh</option>
-                                    <option>Arpit</option> */}
                                 </Select>
                             </FormControl>
                         </ModalBody>
