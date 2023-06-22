@@ -35,15 +35,19 @@ const ProfileModal = ({ isGroupChat, user, isOpen, onClose }) => {
                         />
                     </div>
 
-                    <div className='flex w-[100%] flex-wrap mx-auto justify-center items-center'>
-                        <p
-                            key={user?.groupAdmin?._id}
-                            className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center transition-all ease-in-out duration-200 hover:text-white hover:bg-gray-700 cursor-pointer'
-                        >
-                            {user?.groupAdmin?.email}
-                            <FaCrown />
-                        </p>
-                    </div>
+                    {isGroupChat ? (
+                        <div className='flex w-[100%] flex-wrap mx-auto justify-center items-center'>
+                            <p
+                                key={user?.groupAdmin?._id}
+                                className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center transition-all ease-in-out duration-200 hover:text-white hover:bg-gray-700 cursor-pointer'
+                            >
+                                {user?.groupAdmin?.email}
+                                <FaCrown />
+                            </p>
+                        </div>
+                    ) : (
+                        ''
+                    )}
 
                     <div className='flex w-[100%] flex-wrap mx-auto justify-center items-center'>
                         {!isGroupChat ? (
