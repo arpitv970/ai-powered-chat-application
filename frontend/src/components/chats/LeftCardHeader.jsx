@@ -179,7 +179,7 @@ const LeftCardHeader = () => {
 
                                 <FormControl mt={4}>
                                     <FormLabel>Add Users</FormLabel>
-                                    <div className='flex justify-around items-start flex-wrap'>
+                                    <div className='flex flex-wrap justify-center w-[100%]'>
                                         {groupInputs?.users?.map(
                                             (user, idx) => (
                                                 <SelectecUsers

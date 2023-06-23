@@ -31,7 +31,6 @@ const ProfileModal = ({ isGroupChat, user, isOpen, onClose }) => {
                             boxSize='100%'
                             name={!isGroupChat ? user?.name : user?.chatName}
                             src={user?.pic}
-                            alt='Dan Abramov'
                         />
                     </div>
 
@@ -41,8 +40,14 @@ const ProfileModal = ({ isGroupChat, user, isOpen, onClose }) => {
                                 key={user?.groupAdmin?._id}
                                 className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center transition-all ease-in-out duration-200 hover:text-white hover:bg-gray-700 cursor-pointer'
                             >
-                                {user?.groupAdmin?.email}
-                                <FaCrown />
+                                <Avatar
+                                    size='xs'
+                                    m='2'
+                                    name={user?.groupAdmin?.name}
+                                    src={user?.groupAdmin?.pic}
+                                />
+                                {user?.groupAdmin?.name}
+                                <FaCrown className='m-1' />
                             </p>
                         </div>
                     ) : (
@@ -60,7 +65,13 @@ const ProfileModal = ({ isGroupChat, user, isOpen, onClose }) => {
                                             key={u?._id}
                                             className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center transition-all ease-in-out duration-200 hover:text-white hover:bg-gray-700 cursor-pointer'
                                         >
-                                            {u?.email}
+                                            <Avatar
+                                                size='xs'
+                                                m='2'
+                                                name={u?.name}
+                                                src={u?.pic}
+                                            />
+                                            {u?.name}
                                         </p>
                                     ) : (
                                         ''
