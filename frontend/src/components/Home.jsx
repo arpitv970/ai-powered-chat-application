@@ -1,9 +1,7 @@
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-    const isLogged = useSelector((state) => state.isLogged);
-    console.log('userlogged', isLogged);
+    
     return (
         <div>
             <section className='flex flex-col justify-center items-center mt-2 mb-5 text-[30px]'>

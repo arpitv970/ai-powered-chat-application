@@ -63,8 +63,6 @@ const SearchUserDrawer = () => {
                 config
             );
 
-            console.log('res', data?.users);
-
             setLoading(false);
             setSearchRes(data?.users);
         } catch (error) {
@@ -83,7 +81,6 @@ const SearchUserDrawer = () => {
 
     const accessChat = async (userId) => {
         try {
-            console.log('user', userId);
             setLoadingChat(true);
 
             const config = {
@@ -96,7 +93,6 @@ const SearchUserDrawer = () => {
                 .post('http://localhost:5000/api/chat', { userId }, config)
                 .then((res) => res?.data?.fullChat)
                 .then((data) => {
-                    console.log('fullchat', data);
                     if (!chats.find((c) => c._id === data._id)) {
                         dispatch(authActions.setChats([data, ...chats]));
                     }
@@ -125,8 +121,6 @@ const SearchUserDrawer = () => {
             });
         }
     };
-
-    console.log('selectedChat', selectedChat);
 
     return (
         <div>

@@ -12,7 +12,6 @@ const App = () => {
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    console.log(isLoggedIn);
     useEffect(() => {
         const localUser = JSON.parse(localStorage.getItem('userData'));
 

@@ -7,7 +7,6 @@ const LeftCard = () => {
     const chats = useSelector((state) => state.chats);
     const userData = useSelector((state) => state.user);
 
-    console.log('the chats', chats);
     return (
         <div className='border-[2.5px] border-black rounded-xl h-[100%] w-[25%] mr-1 p-2 overflow-y-auto'>
             <LeftCardHeader />

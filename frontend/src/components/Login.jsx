@@ -35,7 +35,16 @@ const Login = () => {
                 },
                 config
             )
-            .catch((err) => console.log(err));
+            .catch((err) =>
+                toast({
+                    title: 'Ooops... Error Occured!.',
+                    position: 'top',
+                    description: err,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: false,
+                })
+            );
         const data = res.data;
 
         return data;
@@ -43,7 +52,6 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log(inputs);
         sendReq()
             .then((userData) =>
                 localStorage.setItem('userData', JSON.stringify(userData))
@@ -60,7 +68,6 @@ const Login = () => {
                     isClosable: false,
                 });
             })
-            .then((data) => console.log(data))
             .catch((err) => {
                 toast({
                     title: 'Ooops... Error Occured!.',

@@ -37,7 +37,6 @@ const LeftCardHeader = () => {
 
     const handleGroupInputs = async (e) => {
         e.preventDefault();
-        console.log(e.target.id, e.target.value);
 
         if (e.target.id === 'groupName') {
             setGroupInputs((prev) => ({ ...prev, groupName: e.target.value }));
@@ -52,8 +51,6 @@ const LeftCardHeader = () => {
             const selectedUsers = allUsers?.find(
                 (user) => user?._id === option
             );
-
-            console.log(selectedUsers, option);
 
             setGroupInputs({
                 ...groupInputs,
@@ -78,7 +75,6 @@ const LeftCardHeader = () => {
                 const filteredUsers = data?.filter(
                     (user) => user?._id !== userData?.user?._id
                 );
-                // console.log('all users fetch', filteredUsers);
                 setAllUsers(filteredUsers);
             })
             .catch((err) =>
@@ -122,8 +118,6 @@ const LeftCardHeader = () => {
                 },
                 config
             );
-
-            console.log(data)
 
             dispatch(authActions.setChats([data?.fullGrpChat, ...chats]));
             onClose();

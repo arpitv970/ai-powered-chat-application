@@ -9,8 +9,6 @@ const RightCardHeader = ({ chat }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    console.log('aizen', userData?.user?.name);
-
     return (
         <div
             onClick={onOpen}
