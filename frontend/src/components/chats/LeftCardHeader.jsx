@@ -14,11 +14,12 @@ import {
     useDisclosure,
     useToast,
 } from '@chakra-ui/react';
-import axios from 'axios';
+
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SelectecUsers from './GroupChat/SelectecUsers';
 import { authActions } from '../../store';
+import AxiosHelper from '../../../axios';
 
 const LeftCardHeader = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -68,8 +69,7 @@ const LeftCardHeader = () => {
             },
         };
 
-        await axios
-            .get('http://localhost:5000/api/user', config)
+        await AxiosHelper.get('user', config)
             .then((res) => res?.data?.users)
             .then((data) => {
                 const filteredUsers = data?.filter(
@@ -108,8 +108,8 @@ const LeftCardHeader = () => {
                     Authorization: `Bearer ${userData?.token}`,
                 },
             };
-            const { data } = await axios.post(
-                'http://localhost:5000/api/chat/group',
+            const { data } = await AxiosHelper.post(
+                'chat/group',
                 {
                     grpName: groupInputs?.groupName,
                     users: JSON.stringify(

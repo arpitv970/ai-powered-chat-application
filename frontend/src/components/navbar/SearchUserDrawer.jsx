@@ -14,11 +14,12 @@ import {
     useToast,
     Spinner,
 } from '@chakra-ui/react';
-import axios from 'axios';
+
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingSearchItem from './LoadingSearchItem';
 import UserListItems from './UserListItems';
 import { authActions } from '../../store';
+import AxiosHelper from '../../../axios';
 
 const SearchUserDrawer = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -58,8 +59,8 @@ const SearchUserDrawer = () => {
                 },
             };
 
-            const { data } = await axios.get(
-                `http://localhost:5000/api/user/find/?search=${searchUser}`,
+            const { data } = await AxiosHelper.get(
+                `user/find/?search=${searchUser}`,
                 config
             );
 
@@ -89,8 +90,7 @@ const SearchUserDrawer = () => {
                     Authorization: `Bearer ${userData?.token}`,
                 },
             };
-            await axios
-                .post('http://localhost:5000/api/chat', { userId }, config)
+            await AxiosHelper.post('chat', { userId }, config)
                 .then((res) => res?.data?.fullChat)
                 .then((data) => {
                     if (!chats.find((c) => c._id === data._id)) {

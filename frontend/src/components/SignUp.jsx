@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react';
-import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authActions } from '../store';
 import { useDispatch } from 'react-redux';
+import AxiosHelper from '../../axios';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -30,27 +30,25 @@ const SignUp = () => {
                 'Content-type': 'application/json',
             },
         };
-        const res = await axios
-            .post(
-                'http://localhost:5000/api/user/signup',
-                {
-                    name: inputs.name,
-                    email: inputs.email,
-                    password: inputs.password,
-                    pic: inputs.pic,
-                },
-                config
-            )
-            .catch((err) =>
-                toast({
-                    title: 'Ooops... Error Occured!.',
-                    position: 'top',
-                    description: err,
-                    status: 'error',
-                    duration: 3000,
-                    isClosable: false,
-                })
-            );
+        const res = await AxiosHelper.post(
+            'user/signup',
+            {
+                name: inputs.name,
+                email: inputs.email,
+                password: inputs.password,
+                pic: inputs.pic,
+            },
+            config
+        ).catch((err) =>
+            toast({
+                title: 'Ooops... Error Occured!.',
+                position: 'top',
+                description: err,
+                status: 'error',
+                duration: 3000,
+                isClosable: false,
+            })
+        );
         const data = res.data;
 
         return data;

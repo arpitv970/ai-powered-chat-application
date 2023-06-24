@@ -3,9 +3,10 @@ import ChatArea from './ChatArea';
 import RightCardFooter from './RightCardFooter';
 import RightCardHeader from './RightCardHeader';
 import { useToast } from '@chakra-ui/react';
-import axios from 'axios';
+
 import { useEffect, useState } from 'react';
 import { authActions } from '../../store';
+import AxiosHelper from '../../../axios';
 
 const RightCard = () => {
     const [messages, setMessages] = useState([]);
@@ -31,8 +32,8 @@ const RightCard = () => {
 
             setNewMessage('');
 
-            const { data } = await axios.post(
-                'http://localhost:5000/api/message',
+            const { data } = await AxiosHelper.post(
+                'message',
                 {
                     content: newMessage,
                     chatId: selectedChat?._id,
@@ -53,36 +54,32 @@ const RightCard = () => {
         }
     };
 
-    const fetchChats = async () => {
-        try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${userData?.token}`,
-                },
-            };
-            const { data } = await axios.get(
-                'http://localhost:5000/api/chat',
-                config
-            );
-            console.log('setChat', data);
-
-            // HOTFIX: Need to fix setChats()
-            // dispatch(authActions.setChats([data, ...chats]));
-        } catch (err) {
-            toast({
-                title: 'Ooops... Error Occured!.',
-                position: 'top',
-                description: err,
-                status: 'error',
-                duration: 3000,
-                isClosable: false,
-            });
-        }
-    };
-
     useEffect(() => {
+        const fetchChats = async () => {
+            try {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${userData?.token}`,
+                    },
+                };
+                const res = await AxiosHelper.get('chat', config);
+                console.log('setChat', res?.data?.data);
+
+                // HOTFIX: Need to fix setChats()
+                dispatch(authActions.setChats(res?.data?.data));
+            } catch (err) {
+                toast({
+                    title: 'Ooops... Error Occured!.',
+                    position: 'top',
+                    description: err,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: false,
+                });
+            }
+        };
         fetchChats();
-    }, []);
+    });
 
     return (
         <div className='border-[2.5px] border-black rounded-xl h-[100%] w-[75%] ml-1 flex flex-col justify-between items-start px-3 py-2'>
