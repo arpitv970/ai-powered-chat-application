@@ -12,6 +12,7 @@ const RightCard = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState();
     const [loading, setLoading] = useState(false);
+    const [loadingMessages, setLoadingMessages] = useState(false);
 
     const selectedChat = useSelector((state) => state.selectedChats);
     const userData = useSelector((state) => state.user);
@@ -22,6 +23,8 @@ const RightCard = () => {
 
     const handleSubmitMessage = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -55,18 +58,24 @@ const RightCard = () => {
     };
 
     useEffect(() => {
-        const fetchChats = async () => {
+        const fetchMessages = async () => {
+            if (!selectedChat) {
+                return;
+            }
+
             try {
                 const config = {
                     headers: {
                         Authorization: `Bearer ${userData?.token}`,
                     },
                 };
-                const res = await AxiosHelper.get('chat', config);
-                console.log('setChat', res?.data?.data);
+                const res = await AxiosHelper.get(
+                    `/message/${selectedChat?._id}`,
+                    config
+                );
+                setMessages(res?.data?.messages);
 
-                // HOTFIX: Need to fix setChats()
-                dispatch(authActions.setChats(res?.data?.data));
+                console.log(res?.data?.messages);
             } catch (err) {
                 toast({
                     title: 'Ooops... Error Occured!.',
@@ -78,8 +87,9 @@ const RightCard = () => {
                 });
             }
         };
-        fetchChats();
-    });
+        
+        fetchMessages();
+    }, [selectedChat]);
 
     return (
         <div className='border-[2.5px] border-black rounded-xl h-[100%] w-[75%] ml-1 flex flex-col justify-between items-start px-3 py-2'>
@@ -88,7 +98,7 @@ const RightCard = () => {
             ) : (
                 <>
                     <RightCardHeader chat={selectedChat} />
-                    <ChatArea loading={loading} />
+                    <ChatArea loadingMessages={loadingMessages} />
                     <RightCardFooter
                         setNewMessage={setNewMessage}
                         newMessage={newMessage}

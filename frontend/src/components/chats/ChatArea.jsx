@@ -1,9 +1,9 @@
 import { Spinner } from '@chakra-ui/react';
 
-const ChatArea = ({ loading }) => {
+const ChatArea = ({ loadingMessages }) => {
     return (
         <div className='bg-dimBlue rounded-xl h-[70vh] w-[100%] overflow-y-hidden'>
-            {loading ? (
+            {!loadingMessages ? (
                 <div className='w-[100%] h-[100%] flex'>
                     <Spinner
                         d='flex'

@@ -1,4 +1,4 @@
-import { Button, FormControl, Input } from '@chakra-ui/react';
+import { Button, Input } from '@chakra-ui/react';
 import { IoMdSend } from 'react-icons/io';
 
 const RightCardFooter = ({
