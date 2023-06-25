@@ -5,6 +5,7 @@ import UserChat from './UserChat';
 import { useDispatch, useSelector } from 'react-redux';
 import AxiosHelper from '../../../axios';
 import { useToast } from '@chakra-ui/react';
+import { authActions } from '../../store';
 
 const LeftCard = () => {
     const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ const LeftCard = () => {
 
     useEffect(() => {
         fetchChats();
-    }, []);
+    });
 
     return (
         <div className='border-[2.5px] border-black rounded-xl h-[100%] w-[25%] mr-1 p-2 overflow-y-auto'>

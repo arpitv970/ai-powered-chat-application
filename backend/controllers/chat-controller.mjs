@@ -25,6 +25,7 @@ export const accessAllChats = async (req, res, next) => {
         select: 'name pic email',
     });
 
+    console.log('isChat', isChat.length);
     if (isChat.length > 0) {
         return res.status(200).json({ chat: isChat[0] });
     } else {
@@ -38,7 +39,7 @@ export const accessAllChats = async (req, res, next) => {
             const createChat = await Chat.create(chatData);
 
             const fullChat = await Chat.findOne({
-                _id: createChat.id,
+                _id: createChat._id,
             }).populate('users', '-password');
             return res.status(200).json({ fullChat });
         } catch (err) {
