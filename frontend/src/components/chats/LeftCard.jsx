@@ -44,7 +44,7 @@ const LeftCard = () => {
 
     useEffect(() => {
         fetchChats();
-    }, []);
+    });
 
     return (
         <div className='border-[2.5px] border-black rounded-xl h-[100%] w-[25%] mr-1 p-2 overflow-y-auto'>
