@@ -57,12 +57,10 @@ const RightCard = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchMessages = async () => {
-            if (!selectedChat) {
-                return;
-            }
-
+    const fetchMessages = async () => {
+        setLoadingMessages(true);
+        if (!selectedChat || selectedChat === undefined) return;
+        else {
             try {
                 const config = {
                     headers: {
@@ -74,8 +72,9 @@ const RightCard = () => {
                     config
                 );
                 setMessages(res?.data?.messages);
+                setLoadingMessages(false);
 
-                console.log(res?.data?.messages);
+                console.log(res?.data);
             } catch (err) {
                 toast({
                     title: 'Ooops... Error Occured!.',
@@ -86,8 +85,10 @@ const RightCard = () => {
                     isClosable: false,
                 });
             }
-        };
-        
+        }
+    };
+
+    useEffect(() => {
         fetchMessages();
     }, [selectedChat]);
 
@@ -98,7 +99,10 @@ const RightCard = () => {
             ) : (
                 <>
                     <RightCardHeader chat={selectedChat} />
-                    <ChatArea loadingMessages={loadingMessages} />
+                    <ChatArea
+                        messages={messages}
+                        loadingMessages={loadingMessages}
+                    />
                     <RightCardFooter
                         setNewMessage={setNewMessage}
                         newMessage={newMessage}

@@ -5,6 +5,7 @@ import UserChat from './UserChat';
 import { useDispatch, useSelector } from 'react-redux';
 import AxiosHelper from '../../../axios';
 import { useToast } from '@chakra-ui/react';
+import { authActions } from '../../store';
 
 const LeftCard = () => {
     const [loading, setLoading] = useState(false);

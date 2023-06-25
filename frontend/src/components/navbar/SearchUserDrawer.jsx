@@ -90,24 +90,12 @@ const SearchUserDrawer = () => {
                     Authorization: `Bearer ${userData?.token}`,
                 },
             };
-            await AxiosHelper.post('chat', { userId }, config)
-                .then((res) => res?.data?.fullChat)
-                .then((data) => {
-                    if (!chats.find((c) => c._id === data._id)) {
-                        dispatch(authActions.setChats([data, ...chats]));
-                    }
-                    dispatch(authActions.setSelectedChats(data));
-                })
-                .catch((err) =>
-                    toast({
-                        title: 'Ooops... Error Occured!.',
-                        position: 'top',
-                        description: err,
-                        status: 'error',
-                        duration: 3000,
-                        isClosable: false,
-                    })
-                );
+            const res = await AxiosHelper.post('chat', { userId }, config);
+
+            if (!chats.find((c) => c._id === res?.data?.fullChat._id)) {
+                dispatch(authActions.setChats([res?.data?.fullChat, ...chats]));
+            }
+            dispatch(authActions.setSelectedChats(res?.data?.fullChat));
             setLoadingChat(false);
             onClose();
         } catch (err) {
