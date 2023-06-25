@@ -9,6 +9,8 @@ const RightCardHeader = ({ chat }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    console.log(chat);
+
     return (
         <div
             onClick={onOpen}
@@ -35,9 +37,7 @@ const RightCardHeader = ({ chat }) => {
                 isOpen={isOpen}
                 onClose={onClose}
                 isGroupChat={chat?.isGroupChat}
-                user={
-                    !chat?.isGroupChat ? getUser(userData, chat?.users) : chat
-                }
+                user={!chat?.isGroupChat ? getUser(userData, chat?.users) : chat}
             />
         </div>
     );

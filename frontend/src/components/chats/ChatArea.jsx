@@ -35,7 +35,7 @@ const ChatArea = ({ loadingMessages, messages }) => {
                     />
                 </div>
             ) : (
-                <div className='border border-black mx-2 my-3 p-2 h-max'>
+                <div className='mx-2 my-3 p-2 h-max'>
                     {messages &&
                         messages?.map((m, i) => (
                             <div

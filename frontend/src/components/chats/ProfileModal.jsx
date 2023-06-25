@@ -9,6 +9,7 @@ import {
     ModalHeader,
     ModalOverlay,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { FaCrown } from 'react-icons/fa';
 
@@ -30,25 +31,31 @@ const ProfileModal = ({ isGroupChat, user, isOpen, onClose }) => {
                             boxShadow='dark-lg'
                             boxSize='100%'
                             name={!isGroupChat ? user?.name : user?.chatName}
-                            src={user?.pic}
+                            src={!isGroupChat ? user?.pic : user?.chatName}
                         />
                     </div>
 
                     {isGroupChat ? (
                         <div className='flex w-[100%] flex-wrap mx-auto justify-center items-center'>
-                            <p
-                                key={user?.groupAdmin?._id}
-                                className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center transition-all ease-in-out duration-200 hover:text-white hover:bg-gray-700 cursor-pointer'
-                            >
-                                <Avatar
-                                    size='xs'
-                                    m='2'
-                                    name={user?.groupAdmin?.name}
-                                    src={user?.groupAdmin?.pic}
-                                />
-                                {user?.groupAdmin?.name}
-                                <FaCrown className='m-1' />
-                            </p>
+                            {user?.users?.map((admin) => (
+                                <>
+                                    {admin?._id === user?.groupAdmin && (
+                                        <p
+                                            key={admin?._id}
+                                            className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center transition-all ease-in-out duration-200 hover:text-white hover:bg-gray-700 cursor-pointer'
+                                        >
+                                            <Avatar
+                                                size='xs'
+                                                m='2'
+                                                name={admin?.name}
+                                                src={admin?.pic}
+                                            />
+                                            {admin?.name}
+                                            <FaCrown className='m-1' />
+                                        </p>
+                                    )}
+                                </>
+                            ))}
                         </div>
                     ) : (
                         ''
@@ -60,7 +67,7 @@ const ProfileModal = ({ isGroupChat, user, isOpen, onClose }) => {
                         ) : (
                             user?.users?.map((u) => (
                                 <>
-                                    {u?._id !== user?.groupAdmin?._id ? (
+                                    {u?._id !== user?.groupAdmin ? (
                                         <p
                                             key={u?._id}
                                             className='border border-primary m-1 px-2 rounded-full max-w-max h-[2rem] flex justify-around items-center transition-all ease-in-out duration-200 hover:text-white hover:bg-gray-700 cursor-pointer'

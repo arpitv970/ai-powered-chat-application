@@ -136,7 +136,6 @@ const SignUp = () => {
                         name='pic'
                         type='text'
                         className='border-[3.5px] rounded-[25px] w-[100%] border-black text-[30px] px-5 py-2 transition-all duration-200 ease-in-out hover:border-devBlue'
-                        required={true}
                         placeholder='Enter Image URL'
                     />
                 </section>

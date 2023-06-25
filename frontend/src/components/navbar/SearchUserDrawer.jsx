@@ -133,18 +133,24 @@ const SearchUserDrawer = () => {
                     </DrawerHeader>
 
                     <DrawerBody>
-                        <HStack>
-                            <Input
-                                onChange={(e) => setSearchUser(e.target.value)}
-                                placeholder='Search by Name/Email'
-                            />
-                            <Button
-                                onClick={handleSearchUser}
-                                colorScheme='whatsapp'
-                            >
-                                Search
-                            </Button>
-                        </HStack>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleSearchUser();
+                            }}
+                        >
+                            <HStack>
+                                <Input
+                                    onChange={(e) =>
+                                        setSearchUser(e.target.value)
+                                    }
+                                    placeholder='Search by Name/Email'
+                                />
+                                <Button type='submit' colorScheme='whatsapp'>
+                                    Search
+                                </Button>
+                            </HStack>
+                        </form>
 
                         {loadingChat ? (
                             <div className='flex justify-center items-center m-auto h-[100%] w-[100%]'>

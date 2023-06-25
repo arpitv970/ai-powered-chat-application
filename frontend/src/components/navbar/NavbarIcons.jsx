@@ -54,7 +54,7 @@ const NavbarIcons = () => {
                         mr='10'
                         src={user?.pic}
                         size='md'
-                        name='Arpit Verma'
+                        name={user?.name}
                         objectFit='cover'
                         cursor='pointer'
                     />
