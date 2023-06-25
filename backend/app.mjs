@@ -20,7 +20,8 @@ app.use('/api/user', userRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/message', messageRouter);
 
-let frontendURL = 'http://localhost:5173';
+let frontendURL =
+    'http://localhost:5173' || 'https://ai-powered-chat-application.vercel.app';
 
 const io = new Server(
     mongoose
@@ -40,12 +41,18 @@ const io = new Server(
     {
         pingTimeout: 60000,
         cors: {
-            origin: 'http://localhost:5173',
+            origin: frontendURL,
         },
     }
 );
 
-io.on('con');
+io.on('connection', (socket) => {
+    console.log('connected to socket.io');
+    // socket.on('setup', (userData) => {
+    //     socket.join(userData?._id);
+    //     socket.emit('Connected');
+    // });
+});
 
 // mongoose
 //     .connect(URI)

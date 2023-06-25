@@ -5,9 +5,19 @@ import {
     isSameSender,
 } from '../../config/ChatLogic';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { io } from 'socket.io-client';
+import { ENDPOINT } from '../../config/EndPoints';
+
+let socket, selectedChatCompare;
 
 const ChatArea = ({ loadingMessages, messages }) => {
     const userData = useSelector((state) => state.user);
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        console.log(ENDPOINT);
+    }, []);
     return (
         <div className='bg-dimBlue rounded-xl h-[70vh] w-[100%] overflow-y-scroll'>
             {loadingMessages ? (
@@ -28,7 +38,10 @@ const ChatArea = ({ loadingMessages, messages }) => {
                 <div className='border border-black mx-2 my-3 p-2 h-max'>
                     {messages &&
                         messages?.map((m, i) => (
-                            <div key={i} className='flex justify-center items-center'>
+                            <div
+                                key={i}
+                                className='flex justify-center items-center'
+                            >
                                 {(isSameSender(
                                     messages,
                                     m,
