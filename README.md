@@ -3,7 +3,9 @@
 > ⚠️ This application is currently under-devlopment, and it is Open for your precious contribution
 
 ---
+
 ### Join conversation with team 👇
+
 [![Discord](https://img.shields.io/discord/807214956357484583?color=blue&label=Discord%20Server&logo=Cold%20Spin%20Server&style=for-the-badge)](https://discord.gg/xR6qCrU8mu)
 
 ---
@@ -11,6 +13,7 @@
 We aim to build an **AI-powered chat application** that can have nuanced conversations with humans on any topic. The chat application will have a broad range of knowledge which it will tap into instantly to respond to user queries. It will demonstrate empathy, humor, and personality to appear more human-like in its conversations. The key objectives of this project are:
 
 ## Objective of Project
+
 - **Instant messaging**: The primary objective of a real-time chatting project is to provide instant messaging capabilities. Users should be able to send and receive messages in real-time, without any significant delay.
 - **User authentication:** The project should implement a secure user authentication system to ensure that only authorized users can access the chat application.
 - **User-friendly interface:** The interface of the chat application should be intuitive and easy to use. Users should be able to find the features they need quickly and easily.
@@ -23,8 +26,11 @@ We aim to build an **AI-powered chat application** that can have nuanced convers
 - **Innovation:** AI tools are constantly evolving and new capabilities are being developed. The objective of integrating AI tools is to stay up-to-date with the latest developments and use them to drive innovation within the organization.
 
 # Getting Started
+
 ## Local Setup
+
 Follow the procedure mentioned just below, to setup this application in your local machine:
+
 - Fork this repository to your GitHub Account
 - Now simply clone it to your machine
 - After cloning the application, jump right into the `ai-powered-chat-application` directory
@@ -34,13 +40,20 @@ Follow the procedure mentioned just below, to setup this application in your loc
 - There are 2 sub directories in the project
   - `backend`
   - `frontend`
+- Create a file name `.env` inside backend directory and the following enviroment variables to that file.
+  ```bash
+  PORT=5000
+  MONGO_URI=<your_mongo_db_url>
+  JWT_SECRET=<your_jwt_secret>
+  ```
 
 ## Initiating project on local machine
+
 - Go into the desired directory & generate the `node_modules` for the dependencies.
-    ```bash
-    cd backend
-    npm install
-    ```
+  ```bash
+  cd backend
+  npm install
+  ```
 - After installing dependencies, run the project locally
   - To run dev scripts
     ```bash
@@ -50,9 +63,11 @@ Follow the procedure mentioned just below, to setup this application in your loc
     ```bash
     npm start
     ```
+
 ### Now you have done with installation & running the project to your local machine, feel free to contribute to the project 🤗
 
 ## Tech Stack of the project
+
 |           Domain           | Tech-Stack  |
 | :------------------------: | :---------: |
 |    Front-End(Framework)    |   ReactJS   |
