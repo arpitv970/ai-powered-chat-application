@@ -7,6 +7,7 @@ import { useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { authActions } from '../../store';
 import AxiosHelper from '../../../axios';
+import { io } from 'socket.io-client';
 
 const RightCard = () => {
     const [messages, setMessages] = useState([]);
@@ -90,6 +91,19 @@ const RightCard = () => {
 
     useEffect(() => {
         fetchMessages();
+
+        const socket = io('http://localhost:5000');
+
+        socket.on('message', (data) => {
+            console.log('Received Message: ', data);
+            // Handle incomming messages
+        });
+
+        socket.emit('message', 'Hello, Server!')
+
+        return () => {
+            socket.disconnect();
+        }
     }, [selectedChat]);
 
     return (
